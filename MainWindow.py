@@ -2,8 +2,8 @@ import subprocess
 import tkinter as tk  # import tk for mainframe
 from tkinter import filedialog
 from tkinter.simpledialog import askstring  # import simpledialog with askstring
-from PyQt6 import QtWidgets, uic # import PyQT6 widgets
-import sys # import sys for QT widget UI
+from PyQt6 import QtWidgets, uic  # import PyQT6 widgets
+import sys  # import sys for QT widget UI
 import os  # import os for path related code
 
 root = tk.Tk()  # tkinter for user prompt
@@ -12,7 +12,9 @@ ip_address = "192.168.1.1"  # variable
 ssid = "MikroTik "  # variable
 wpa2 = "[/system routerboard get serial-number]"  # variable
 mt_def_ip = "192.168.88.1"  # variable
-ssh_dir = filedialog.askdirectory(parent=root, initialdir=current_dir, title='Please select Windows User\'s directory (C:\\Users\\User)')  # assign user home dir to a variable
+ssh_dir = filedialog.askdirectory(parent=root, initialdir=current_dir,  # assign user home dir to a variable
+                                  title='Please select Windows User\'s directory (C:\\Users\\User)')
+
 
 class Ui(QtWidgets.QMainWindow):  # class for GUI
 
@@ -23,7 +25,7 @@ class Ui(QtWidgets.QMainWindow):  # class for GUI
             if keyword in line:  # if statement
                 raw_line = line  # assign line to a variable
                 i = raw_line.find(keyword)  # get line index
-                pre_trim = raw_line[i:i + len(keyword) + len(line)] # trim line from the beginning
+                pre_trim = raw_line[i:i + len(keyword) + len(line)]  # trim line from the beginning
                 sec_trim = pre_trim[len(keyword):]  # trim line from the end
                 last_used_ip = sec_trim[:-2]  # trim line from the end
 
@@ -37,19 +39,19 @@ class Ui(QtWidgets.QMainWindow):  # class for GUI
             if keyword in line:  # if statement
                 raw_line = line  # assign line to a variable
                 i = raw_line.find(keyword)  # get line index
-                pre_trim = raw_line[i:i + len(keyword) + len(line)] # trim line from the beginning
+                pre_trim = raw_line[i:i + len(keyword) + len(line)]  # trim line from the beginning
                 sec_trim = pre_trim[len(keyword):]  # trim line from the end
                 last_used_ssid = sec_trim[:-len(keyword2)]  # trim line from the end
     defSSID = ssid  # assign trimmed value to the variable
 
-    with open("Part3.bat", 'r') as file: # open .bat file with read permissions
-        content = file.readlines() # read contents of the .bat file
-        keyword = "wpa2-pre-shared-key=" # set keyword to look for
+    with open("Part3.bat", 'r') as file:  # open .bat file with read permissions
+        content = file.readlines()  # read contents of the .bat file
+        keyword = "wpa2-pre-shared-key="  # set keyword to look for
         for line in content:  # listing for function
             if keyword in line:  # if statement
                 raw_line = line  # assign line to a variable
                 i = raw_line.find(keyword)  # get line index
-                pre_trim = raw_line[i:i + len(keyword) + len(line)] # trim line from the beginning
+                pre_trim = raw_line[i:i + len(keyword) + len(line)]  # trim line from the beginning
                 sec_trim = pre_trim[len(keyword):]  # trim line from the end
                 last_used_wpa = sec_trim[:-1]  # trim line from the end
     defWPA = wpa2  # assign trimmed value to the variable
@@ -156,7 +158,7 @@ class Ui(QtWidgets.QMainWindow):  # class for GUI
 
     def change_ip(self):  # Function to change the ip in .bat
         global ip_address  # assign global variable
-        ip_address = askstring("New IPAddress", "default: 192.168.1.1" )  # get new IP address from user
+        ip_address = askstring("New IPAddress", "default: 192.168.1.1")  # get new IP address from user
         raw_ip = ip_address[:-1]  # assign trimmed value to the variable
         file = open("Part1.bat", 'r')  # open .bat file with read permissions
         replacement = ""  # empty string for replacement purposes
@@ -203,7 +205,7 @@ class Ui(QtWidgets.QMainWindow):  # class for GUI
 
     def change_ssid(self):  # Function to change ssid from default value
         global ssid  # assign global variable
-        ssid = askstring("New SSID", "default: MikroTik" )
+        ssid = askstring("New SSID", "default: MikroTik")
         file = open("Part3.bat", 'r')  # open .bat file with read permissions
         replacement = ""  # empty string for replacement purposes
         for line in file:  # listing for function
@@ -217,7 +219,7 @@ class Ui(QtWidgets.QMainWindow):  # class for GUI
 
     def change_wpa2(self):  # Function to change wpa2 from default value
         global wpa2  # assign global variable
-        wpa2 = askstring("New wpa2", "default: S/N" )
+        wpa2 = askstring("New wpa2", "default: S/N")
         file = open("Part3.bat", 'r')  # open .bat file with read permissions
         replacement = ""  # empty string for replacement purposes
         for line in file:  # listing for function
@@ -228,6 +230,7 @@ class Ui(QtWidgets.QMainWindow):  # class for GUI
         fout.write(replacement)  # write string with replacement
         fout.close()  # close opened .bat file
         self.wpa2.setHtml(wpa2)  # Show the content of variable in html form
+
 
 app = QtWidgets.QApplication(sys.argv)  # defines widget as app
 window = Ui()  # defines window
